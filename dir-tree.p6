@@ -43,7 +43,7 @@ sub MAIN($directory!, FileSize :$file-size=10, PosInt :$dir-count=50, Depth :$de
     say "$file-count files will be created ( $file_per_dir per dir ) - Total " ~ ($file-count*$file-size) ~ " MB space";
 
     while @iter.shift -> $fol is copy {
-        $fol ~= @iter.elems ?? $separator ~ @iter.shift !! '' for ^$depth;
+        $fol ~= @iter.elems ?? $separator ~ @iter.shift !! '' for ^($depth - 1);
         @dirs.push: IO::Path.new( $fol );
     }
 
