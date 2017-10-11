@@ -48,7 +48,7 @@ sub MAIN($directory!, FileSize :$file-size=10, PosInt :$dir-count=50, Depth :$de
     }
 
     for @dirs -> $dir {
-        mkpath( $dir.abspath ); # mkdir -p 'absolute path'
+        mkpath( $dir.IO.absolute ); # mkdir -p 'absolute path'
 
         my Str @subdirs = $dir.Str.split: $separator; # split relative directories
 
@@ -57,7 +57,7 @@ sub MAIN($directory!, FileSize :$file-size=10, PosInt :$dir-count=50, Depth :$de
             $file_per_dir++ if $left_files; # 0 Int is false, "0" Str is true
 
             my IO::Path $cur-dir    .= new( (|@subdirs,$subdir).join($separator) );
-            my Block $dest-file     := -> { $*SPEC.join('', $cur-dir.abspath, @names.pop // random-generator[^$file-chars].join ~ '.txt' ) };
+            my Block $dest-file     := -> { $*SPEC.join('', $cur-dir.absolute, @names.pop // random-generator[^$file-chars].join ~ '.txt' ) };
             
             # Windows server has another tool - 'CREATFIL.EXE'
             #TODO make it with pipe or use C posix_fallocate() <fcntl.h>
